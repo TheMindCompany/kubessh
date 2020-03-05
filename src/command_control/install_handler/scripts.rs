@@ -51,7 +51,7 @@ impl InstallScript {
     pub fn linux_kubectl() -> String {
         r#"#!/bin/bash
 
-echo "Script: kubectl"
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
 "#.to_string()
     }
 
@@ -59,9 +59,18 @@ echo "Script: kubectl"
     pub fn linux_awstools() -> String {
         r#"#!/bin/bash
 
-echo "Script: aws"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
 
-echo "This script has not been created.  Please help contribute by creating a script for your OS that others can use and commit to config-manager."
+curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
+chmod +x ./aws-iam-authenticator
+mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin
+
+echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
+
+aws-iam-authenticator help
 "#.to_string()
     }
 
@@ -69,9 +78,17 @@ echo "This script has not been created.  Please help contribute by creating a sc
     pub fn osx_awstools() -> String {
         r#"#!/bin/bash
 
-echo "Script: aws"
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
 
-echo "This script has not been created.  Please help contribute by creating a script for your OS that others can use and commit to config-manager."
+curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/darwin/amd64/aws-iam-authenticator
+chmod +x ./aws-iam-authenticator
+mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin
+
+echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
+
+aws-iam-authenticator help
 "#.to_string()
     }
 
@@ -79,7 +96,7 @@ echo "This script has not been created.  Please help contribute by creating a sc
     pub fn osx_kubectl() -> String {
         r#"#!/bin/bash
 
-echo "Script: kubectl"
+curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl"
 "#.to_string()
     }
 
