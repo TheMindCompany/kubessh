@@ -16,7 +16,7 @@ pub enum Configurations {
 pub struct AppInstall {
     /// Available installation packages.
     ///
-    /// python3, ansible, awstools, kubectl, pip, ruby, gitcrypt, hubflow, packer, jdk, busbar, mongodb, redis, hub
+    /// awstools, kubectl
 
     #[structopt(default_value = "all")]
     pub packages: Vec<String>,

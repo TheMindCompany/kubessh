@@ -5,7 +5,7 @@ use super::Commands;
 #[derive(Debug, StructOpt, Default, Clone)]
 #[structopt(
     global_settings = &[DisableVersion, DeriveDisplayOrder, VersionlessSubcommands],
-    about = "\nMerge two schema bodies together."
+    about = "\nKubectl wrapper for running bash commands on a container, it's SSH!"
 )]
 pub struct CmdCtl {
     /// Pod target.
@@ -24,7 +24,7 @@ pub struct CmdCtl {
     #[structopt(short = "n", long = "namespace")]
     pub namespace: Option<String>,
 
-    /// Cluster target. 
+    /// Cluster target.
     #[structopt(short = "c", long = "context")]
     pub context: Option<String>,
 
