@@ -1,8 +1,8 @@
 FROM rust:stretch
 
-COPY . /opt/config-manager
+COPY . /opt/kubessh
 
-WORKDIR /opt/config-manager
+WORKDIR /opt/kubessh
 
 RUN cargo build --release
 

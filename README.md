@@ -1,6 +1,25 @@
-# Gimbal Config Manager
+# KubeSSH
 
 A wrapper for `kubectl exec -it <pod> <container> /bin/bash` command.  Makes life a little simpler with user prompt for a pod list selection.
+
+## Install
+
+Use the below command to install binary or build from source.
+
+Binary install:  
+
+```bash
+curl https://themindcompany.github.io/kubessh/install.sh -sS | bash -s
+```
+
+Source install:
+
+```bash
+git clone https://github.com/TheMindCompany/kubessh.git
+cd kubessh
+make build
+make install
+```
 
 ## USAGE
 

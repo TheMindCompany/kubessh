@@ -1,9 +1,0 @@
-FROM rust:alpine
-
-COPY . /opt/config-manager
-
-WORKDIR /opt/config-manager
-
-RUN cargo build --release
-
-CMD ["echo", "Complete!"]

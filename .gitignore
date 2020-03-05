@@ -1,7 +1,5 @@
 /target
 **/*.rs.bk
-complete
-config-manager-osx
-config-manager-debian
-config-manager-alpine
 .DS_Store
+darwin
+debian
