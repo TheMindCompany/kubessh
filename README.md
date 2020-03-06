@@ -1,6 +1,6 @@
 # KubeSSH
 
-A wrapper for `kubectl exec -it <pod> <container> /bin/bash` command.  Makes life a little simpler with user prompt for a pod list selection and each container within it.
+A wrapper for `kubectl exec -it <pod> -c <container> /bin/bash` command.  Makes life a little simpler with user prompt for a pod list selection and each container within it.
 
 ## Install
 
