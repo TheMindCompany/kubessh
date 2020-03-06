@@ -5,7 +5,7 @@ release: TAG := $(shell read -p "Tag: " tag; echo $$tag)
 
 release:
 	@git push | :
-	#./build_exec.sh
+	./build_exec.sh
 	@git tag ${TAG} | :
 	@git push origin --tags | :
 	curl -X POST --data-binary "@debian" "https://uploads.github.com/repos/TheMindCompany/kubessh/releases/${TAG}/assets?name=debian"

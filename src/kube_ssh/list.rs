@@ -10,6 +10,7 @@ pub struct KubeObjectListPrompt {
     eks: String,
     filter: String,
     context: String,
+    pod: String,
     namespace: String,
 }
 
@@ -77,6 +78,21 @@ impl KubeObjectListPrompt {
                 request.pod = self.process_object_resources(
                     "pod".to_string(), pods
                 );
+                if request.pod.is_some() {
+                    self.pod = request.pod.clone().unwrap();
+                }
+            }
+        }
+
+        match request.container {
+            Some(container) => {
+                request.container =  Some(container);
+            },
+            None => {
+                let containers = self.container_list();
+                request.container = self.process_object_resources(
+                    "container".to_string(), containers
+                );
             }
         }
 
@@ -90,7 +106,36 @@ impl KubeObjectListPrompt {
             "kubectl config current-context",
             self.dry_run,
             self.verbose
-        )
+        ).replace("\n", "")
+    }
+
+    pub fn container_list(&self) -> Vec<String> {
+        let mut cmd = "kubectl ".to_string();
+        let mut handler = CommandLineHandler::new();
+        handler.set_exit_on_error(true);
+
+        if !self.context.is_empty() {
+            cmd.push_str("--context='");
+            cmd.push_str(&self.context);
+            cmd.push_str("' ");
+        }
+
+        if !self.namespace.is_empty() {
+            cmd.push_str("--namespace='");
+            cmd.push_str(&self.namespace);
+            cmd.push_str("' ");
+        }
+
+        cmd.push_str("get po ");
+        cmd.push_str(&self.pod);
+        cmd.push_str(" -o custom-columns=Name:.spec.containers[*].name ");
+
+        let tmp = handler
+            .run_cmd(&cmd, self.dry_run, self.verbose);
+        let mut line_item = tmp.lines();
+        line_item.nth(1).unwrap().split(',')
+            .map(| a | a.to_string())
+            .collect()
     }
 
     pub fn pod_list(&self) -> Vec<String> {
